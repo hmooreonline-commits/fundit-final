@@ -1,90 +1,41 @@
-const { useState } = React;
-const { User, Plus, Share2, Settings, ChevronRight, Activity } = Lucide;
+const { useState, useEffect } = React;
+const { User, Plus, Share2, Settings, ChevronRight, Activity, DollarSign } = Lucide;
 
-// This is the code you just shared!
-const MultiChildDashboard = () => {
-  const [activeChildIndex, setActiveChildIndex] = useState(0);
-
-  const household = [
-    { name: "Leo", color: "border-blue-500 text-blue-600 bg-blue-50", emoji: "⚽", links: 3 },
-    { name: "Maya", color: "border-purple-500 text-purple-600 bg-purple-50", emoji: "🎷", links: 2 },
-    { name: "Sam", color: "border-green-500 text-green-600 bg-green-50", emoji: "🤸", links: 1 }
-  ];
+const App = () => {
+  // Mock Data for your Business MVP
+  const [children] = useState([
+    { id: 1, name: "Leo", balance: 450, goal: 500, color: "blue" },
+    { id: 2, name: "Maya", balance: 280, goal: 1000, color: "purple" },
+    { id: 3, name: "Sam", balance: 850, goal: 900, color: "green" }
+  ]);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans pb-20">
-      <header className="bg-white p-6 border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
-        <h1 className="text-xl font-black italic tracking-tighter text-indigo-600">FundIt</h1>
-        <div className="flex gap-3">
-          <button className="p-2 bg-slate-100 rounded-full text-slate-500"><Settings size={20} /></button>
-          <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center font-bold text-slate-400">P</div>
+    <div className="min-h-screen p-6">
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-gray-800">FundIt</h1>
+          <Settings className="text-gray-400" />
         </div>
-      </header>
 
-      <div className="p-6 bg-white shadow-sm mb-6">
-        <p className="text-xs font-bold text-slate-400 uppercase mb-4 tracking-widest">Select Child</p>
-        <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
-          {household.map((child, idx) => (
-            <button 
-              key={idx}
-              onClick={() => setActiveChildIndex(idx)}
-              className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-2xl border-2 transition-all ${
-                activeChildIndex === idx 
-                ? `${child.color} shadow-md scale-105` 
-                : 'border-slate-100 text-slate-400 grayscale opacity-60'
-              }`}
-            >
-              <span className="text-xl">{child.emoji}</span>
-              <span className="font-bold">{child.name}</span>
-            </button>
-          ))}
-          <button className="flex-shrink-0 w-12 h-12 rounded-2xl border-2 border-dashed border-slate-200 flex items-center justify-center text-slate-300">
-            <Plus size={20} />
-          </button>
-        </div>
+        {children.map(child => (
+          <div key={child.id} className="mb-6 p-4 border rounded-lg">
+            <div className="flex justify-between mb-2">
+              <span className="font-semibold">{child.name}</span>
+              <span className="text-sm text-gray-500">${child.balance} / ${child.goal}</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div 
+                className={`bg-${child.color}-500 h-2.5 rounded-full`} 
+                style={{ width: `${(child.balance / child.goal) * 100}%` }}
+              ></div>
+            </div>
+          </div>
+        ))}
+        
+        <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2">
+          <Plus size={20} /> Add New Goal
+        </button>
       </div>
-
-      <main className="px-6 space-y-6">
-        <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-slate-100 text-center relative overflow-hidden">
-          <div className="absolute -top-10 -right-10 text-slate-50 opacity-10">
-            <Activity size={200} />
-          </div>
-
-          <div className="relative z-10">
-            <h2 className="text-3xl font-black text-slate-900 mb-1">
-              {household[activeChildIndex].name}'s Drive
-            </h2>
-            <p className="text-slate-500 mb-6 font-medium">
-              Currently running <span className="text-indigo-600 font-bold">{household[activeChildIndex].links} fundraisers</span>
-            </p>
-            
-            <div className="flex gap-3">
-              <button className="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-indigo-100 flex items-center justify-center gap-2">
-                <Plus size={18} /> Add Link
-              </button>
-              <button className="bg-white border-2 border-slate-100 text-slate-600 p-4 rounded-2xl flex items-center justify-center">
-                <Share2 size={20} />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-2">Active Links</h3>
-          <div className="bg-white rounded-3xl p-2 border border-slate-100">
-            <div className="p-4 flex items-center justify-between hover:bg-slate-50 rounded-2xl transition-colors cursor-pointer group">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-xl">🍿</div>
-                <div>
-                  <p className="font-black text-slate-800">Gourmet Popcorn</p>
-                  <p className="text-xs text-slate-400">Ends in 4 days</p>
-                </div>
-              </div>
-              <ChevronRight size={18} className="text-slate-300 group-hover:text-indigo-600" />
-            </div>
-          </div>
-        </div>
-      </main>
     </div>
   );
 };
