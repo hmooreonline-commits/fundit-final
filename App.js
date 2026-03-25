@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+const { useState } = React;
 import { User, Plus, Share2, Settings, ChevronRight, Activity } from 'lucide-react';
 
 // This is the code you just shared!
@@ -88,6 +88,3 @@ const MultiChildDashboard = () => {
     </div>
   );
 };
-
-// This line is important! It tells React to use this component as the main app.
-export default MultiChildDashboard;
