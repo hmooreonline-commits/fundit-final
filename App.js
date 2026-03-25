@@ -1,5 +1,5 @@
 const { useState } = React;
-import { User, Plus, Share2, Settings, ChevronRight, Activity } from 'lucide-react';
+const { User, Plus, Share2, Settings, ChevronRight, Activity } = Lucide;
 
 // This is the code you just shared!
 const MultiChildDashboard = () => {
